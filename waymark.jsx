@@ -1,20 +1,4 @@
-// @ts-nocheck
-"use client";
-
 import { useState, useEffect } from "react";
-
-/* ─── Storage shim: maps window.storage → localStorage ─── */
-if (typeof window !== "undefined") {
-  (window as any).storage ??= {
-    get: async (key: string) => {
-      const v = localStorage.getItem(key);
-      return v !== null ? { value: v } : null;
-    },
-    set: async (key: string, value: string) => {
-      localStorage.setItem(key, value);
-    },
-  };
-}
 
 /* ══════════════════════════════════════
    waymark.

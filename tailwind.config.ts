@@ -8,9 +8,18 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["var(--font-outfit)", "system-ui", "sans-serif"],
+      },
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        waymark: {
+          bg: "#1e1d1b",
+          surface: "#272624",
+          border: "#3a3835",
+          muted: "#7a7672",
+          text: "#f0ede8",
+          accent: "#c9a96e",
+        },
       },
     },
   },
