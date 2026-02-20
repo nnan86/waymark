@@ -4,7 +4,7 @@ import ServiceWorkerRegister from "./sw-register";
 
 export const metadata: Metadata = {
   title: "Waymark",
-  description: "A typography-driven travel journal with group expense tracking",
+  description: "A travel journal",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
@@ -35,12 +35,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-      </head>
-      <body className="antialiased bg-[#1e1d1b] text-white" style={{ fontFamily: "'Outfit', 'Helvetica Neue', sans-serif" }}>
+      <body className="antialiased bg-[#1e1d1b] text-white">
         <ServiceWorkerRegister />
         {children}
       </body>
