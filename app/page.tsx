@@ -69,7 +69,7 @@ async function rGeo(lat, lng) {
 }
 
 /* ─── Settlement Calculator ─── */
-function calcSettlements(stops, members, currency) {
+function calcSettlements(stops, members, _currency?) {
   if (!members || members.length < 2) return { paid: {}, owes: {}, transfers: [] };
   const paid = {}; const owes = {};
   members.forEach(m => { paid[m] = 0; owes[m] = 0; });
@@ -288,8 +288,7 @@ export default function Waymark() {
   const finishOb = () => { setOnboarded(true); window.storage.set("wm-ob-v3", "1").catch(() => {}); };
 
   /* ─── Wrapper ─── */
-  const fl = <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />;
-  const W = (ch) => <div style={{ minHeight: "100vh", background: C.bg, fontFamily: F, color: C.tx }}>{fl}{ch}<style>{css}</style></div>;
+  const W = (ch) => <div style={{ minHeight: "100vh", background: C.bg, fontFamily: F, color: C.tx }}>{ch}<style>{css}</style></div>;
 
   /* ═══ LOADING ═══ */
   if (loading) return W(
