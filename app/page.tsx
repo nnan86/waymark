@@ -1,13 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Outfit } from "next/font/google";
-
-const outfit = Outfit({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  display: "swap",
-});
 
 interface StorageAPI {
   get: (key: string) => Promise<{ value: string } | null>;
@@ -43,7 +36,7 @@ const nowT = () => { const d = new Date(); return `${String(d.getHours()).padSta
 const genCode = () => Math.random().toString(36).substring(2, 8).toUpperCase();
 
 /* ─── Design Tokens ─── */
-const F = outfit.style.fontFamily;
+const F = "inherit";
 const C = { bg: "#1e1d1b", bg2: "#252422", hi: "#e8e4db", tx: "#c8c3b8", mu: "#9e9a95", fa: "#6e6a66", dot: "#c8a87c" };
 
 /* ─── Currency ─── */
