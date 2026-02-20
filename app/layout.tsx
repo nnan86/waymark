@@ -42,8 +42,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={outfit.variable}>
-      <body className="font-sans antialiased bg-[#1e1d1b] text-white">
+    <html lang="en">
+      <body className={`${outfit.className} antialiased bg-[#1e1d1b] text-white`}>
         <ServiceWorkerRegister />
         {children}
       </body>
