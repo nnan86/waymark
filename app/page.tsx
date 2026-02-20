@@ -1,11 +1,19 @@
-// @ts-nocheck
 "use client";
 
 import { useState, useEffect } from "react";
 
+interface StorageAPI {
+  get: (key: string) => Promise<{ value: string } | null>;
+  set: (key: string, value: string) => Promise<void>;
+}
+
+declare global {
+  interface Window { storage: StorageAPI; }
+}
+
 /* ─── Storage shim: maps window.storage → localStorage ─── */
 if (typeof window !== "undefined") {
-  (window as any).storage ??= {
+  window.storage ??= {
     get: async (key: string) => {
       const v = localStorage.getItem(key);
       return v !== null ? { value: v } : null;
@@ -334,7 +342,7 @@ export default function Waymark() {
         {journeys.length === 0 ? (
           <div style={{ textAlign: "center", padding: "80px 0" }}>
             <p style={{ fontSize: 17, fontWeight: 300, color: C.mu }}>No journeys yet.</p>
-            <p style={{ fontSize: 12, color: C.fa, marginTop: 12 }}>Start a journey or join a friend's group.</p>
+            <p style={{ fontSize: 12, color: C.fa, marginTop: 12 }}>Start a journey or join a friend&apos;s group.</p>
           </div>
         ) : journeys.map(jrn => {
           const isExp = expanded === jrn.id;
