@@ -279,9 +279,15 @@ export default function Waymark() {
     setScreen("editStop");
   };
 
-  const copyCode = () => {
-    if (j?.group) {
-      navigator.clipboard?.writeText(`Join my Waymark journey "${j.from} → ${j.to}"!\nGroup: ${j.group.name}\nCode: ${j.group.code}`);
+  const copyCode = async () => {
+    if (!j?.group) return;
+    const text = `Join my Waymark journey "${j.from} → ${j.to}"!\nGroup: ${j.group.name}\nCode: ${j.group.code}`;
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: `Join ${j.group.name} on Waymark`, text });
+      } catch {}
+    } else {
+      navigator.clipboard?.writeText(text);
       setCopied(true); setTimeout(() => setCopied(false), 2000);
     }
   };
