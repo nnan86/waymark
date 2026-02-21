@@ -550,14 +550,23 @@ export default function Waymark() {
 
         {cats.length > 0 && (
           <div style={{ padding: "18px 28px 0", maxWidth: 520, margin: "0 auto" }}>
-            <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: 2.5, textTransform: "uppercase", color: C.mu, marginBottom: 10 }}>Breakdown</div>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
-              {cats.map(([cat, amt], i) => (
-                <span key={cat} style={{ fontSize: 13, fontWeight: 400, color: C.tx }}>
-                  {cat} <span style={{ fontWeight: 600 }}>{fmt(amt, j.currency)}</span>{i < cats.length - 1 ? <span style={{ color: C.fa, margin: "0 8px" }}>·</span> : ""}
-                </span>
-              ))}
-            </div>
+            <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: 2.5, textTransform: "uppercase", color: C.mu, marginBottom: 16 }}>Spending breakdown</div>
+            {cats.map(([cat, amt]) => {
+              const pct = Math.round((amt / total) * 100);
+              return (
+                <div key={cat} style={{ marginBottom: 14 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 6 }}>
+                    <span style={{ fontSize: 13, fontWeight: 400, color: C.tx }}>{cat}</span>
+                    <span style={{ fontSize: 13, fontWeight: 600, color: C.hi }}>
+                      {fmt(amt, j.currency)}<span style={{ fontSize: 11, fontWeight: 400, color: C.mu, marginLeft: 6 }}>{pct}%</span>
+                    </span>
+                  </div>
+                  <div style={{ height: 2, background: "rgba(200,195,185,0.1)", borderRadius: 1 }}>
+                    <div style={{ height: "100%", width: `${pct}%`, background: C.dot, borderRadius: 1 }} />
+                  </div>
+                </div>
+              );
+            })}
             <Rule m="18px 0 0" />
           </div>
         )}
