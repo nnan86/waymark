@@ -36,7 +36,7 @@ const nowT = () => { const d = new Date(); return `${String(d.getHours()).padSta
 const genCode = () => Math.random().toString(36).substring(2, 8).toUpperCase();
 
 /* ─── Design Tokens ─── */
-const F = "inherit";
+const F = "'Outfit', 'Helvetica Neue', sans-serif";
 const C = { bg: "#1e1d1b", bg2: "#252422", hi: "#e8e4db", tx: "#c8c3b8", mu: "#9e9a95", fa: "#6e6a66", dot: "#c8a87c" };
 
 /* ─── Currency ─── */
@@ -279,16 +279,20 @@ export default function Waymark() {
     setScreen("editStop");
   };
 
-  const copyCode = async () => {
+  const copyCode = () => {
     if (!j?.group) return;
     const text = `Join my Waymark journey "${j.from} → ${j.to}"!\nGroup: ${j.group.name}\nCode: ${j.group.code}`;
+    navigator.clipboard?.writeText(text);
+    setCopied(true); setTimeout(() => setCopied(false), 2000);
+  };
+
+  const shareViaApp = () => {
+    if (!j?.group) return;
+    const text = encodeURIComponent(`Join my Waymark journey "${j.from} → ${j.to}"!\nGroup: ${j.group.name}\nCode: ${j.group.code}`);
     if (navigator.share) {
-      try {
-        await navigator.share({ title: `Join ${j.group.name} on Waymark`, text });
-      } catch {}
+      navigator.share({ title: `Join ${j.group.name} on Waymark`, text: decodeURIComponent(text) }).catch(() => {});
     } else {
-      navigator.clipboard?.writeText(text);
-      setCopied(true); setTimeout(() => setCopied(false), 2000);
+      window.open(`https://wa.me/?text=${text}`, "_blank");
     }
   };
 
@@ -302,7 +306,8 @@ export default function Waymark() {
   const finishOb = () => { setOnboarded(true); window.storage.set("wm-ob-v3", "1").catch(() => {}); };
 
   /* ─── Wrapper ─── */
-  const W = (ch) => <div style={{ minHeight: "100vh", background: C.bg, fontFamily: F, color: C.tx }}>{ch}<style>{css}</style></div>;
+  const fl = <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />;
+  const W = (ch) => <div style={{ minHeight: "100vh", background: C.bg, fontFamily: F, color: C.tx }}>{fl}{ch}<style>{css}</style></div>;
 
   /* ═══ LOADING ═══ */
   if (loading) return W(
@@ -472,9 +477,15 @@ export default function Waymark() {
               <div style={{ display: "flex", justifyContent: "center", gap: 6, flexWrap: "wrap", marginBottom: 8 }}>
                 {members.map((m, i) => <span key={i} style={{ fontSize: 11, fontWeight: 500, padding: "4px 12px", border: `1px solid ${C.fa}`, color: C.tx, letterSpacing: 0.3 }}>{m}</span>)}
               </div>
-              <button onClick={copyCode} style={{ fontFamily: F, fontSize: 11, fontWeight: 600, color: copied ? C.dot : C.mu, background: "none", border: "none", cursor: "pointer", letterSpacing: 0.5 }}>
-                {copied ? "Copied!" : `Share code: ${j.group.code}`}
-              </button>
+              <div style={{ display: "flex", gap: 12, justifyContent: "center", alignItems: "center" }}>
+                <button onClick={copyCode} style={{ fontFamily: F, fontSize: 11, fontWeight: 600, color: copied ? C.dot : C.mu, background: "none", border: "none", cursor: "pointer", letterSpacing: 0.5 }}>
+                  {copied ? "Copied!" : `Code: ${j.group.code}`}
+                </button>
+                <span style={{ color: C.fa, fontSize: 11 }}>·</span>
+                <button onClick={shareViaApp} style={{ fontFamily: F, fontSize: 11, fontWeight: 600, color: C.dot, background: "none", border: "none", cursor: "pointer", letterSpacing: 0.5 }}>
+                  Invite friends →
+                </button>
+              </div>
             </div>
           )}
         </div>

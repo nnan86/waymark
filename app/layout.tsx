@@ -1,13 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { Outfit } from "next/font/google";
 import "./globals.css";
 import ServiceWorkerRegister from "./sw-register";
-
-const outfit = Outfit({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "Waymark",
@@ -41,7 +34,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={outfit.className}>
+    <html lang="en">
       <body className="antialiased bg-[#1e1d1b] text-white">
         <ServiceWorkerRegister />
         {children}
