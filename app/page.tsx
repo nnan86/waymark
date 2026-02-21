@@ -198,6 +198,7 @@ export default function Waymark() {
   const [editStopId, setEditStopId] = useState(null);
   const [geoLoading, setGeoLoading] = useState(false);
   const [startGeoLoading, setStartGeoLoading] = useState(false);
+  const [startGeoError, setStartGeoError] = useState(false);
   const [delConfirm, setDelConfirm] = useState(null);
   const [copied, setCopied] = useState(false);
   const [showSettle, setShowSettle] = useState(false);
@@ -263,10 +264,12 @@ export default function Waymark() {
 
   const captureStartLocation = async () => {
     setStartGeoLoading(true);
+    setStartGeoError(false);
     try {
       const loc = await getLocation();
       setNt(p => ({ ...p, startLocation: { lat: loc.lat, lng: loc.lng, city: loc.city } }));
-    } catch {} setStartGeoLoading(false);
+    } catch { setStartGeoError(true); }
+    setStartGeoLoading(false);
   };
 
   const joinGroup = () => {
@@ -463,9 +466,12 @@ export default function Waymark() {
               <button onClick={() => setNt({ ...nt, startLocation: null })} style={{ fontFamily: F, fontSize: 11, color: C.fa, background: "none", border: "none", cursor: "pointer" }}>Remove</button>
             </div>
           ) : (
-            <Btn small onClick={captureStartLocation} disabled={startGeoLoading}>
-              {startGeoLoading ? "Locating..." : "Mark starting point"}
-            </Btn>
+            <div>
+              <Btn small onClick={captureStartLocation} disabled={startGeoLoading}>
+                {startGeoLoading ? "Locating..." : "Mark starting point"}
+              </Btn>
+              {startGeoError && <p style={{ fontSize: 11, color: C.fa, marginTop: 10 }}>Couldn&apos;t get location. Check permissions.</p>}
+            </div>
           )}
         </div>
 
